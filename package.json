@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "node-tado-client": "^0.9.7",
+    "smilep1": "^1.6.1"
+  }
+}
