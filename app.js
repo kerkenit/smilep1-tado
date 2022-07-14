@@ -52,7 +52,7 @@ async function getMeterReadings(options, home_id) {
 		// fill in the ip address of the device, e.g. '192.168.1.50'
 		await smile.login({ id: options.id, host: options.host });
 		const powerInfo = await smile.getMeterReadings();
-		console.log(powerInfo);
+		//console.log(powerInfo);
 
 		tado.addEnergyIQMeterReading(home_id, today, parseInt(Math.round(powerInfo.gas), 10));
 
