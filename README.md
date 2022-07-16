@@ -13,7 +13,7 @@ git clone https://github.com/kerkenit/smilep1-tado.git
 sudo touch /var/log/milep1-tado.log
 sudo chown $(id -u -n):$(id -g -n) /var/log/milep1-tado.log
 sudo chmod 755 /var/log/milep1-tado.log
-chmod 755 ~/milep1-tado/run.sh
+chmod 755 ~/smilep1-tado/run.sh
 ```
 
 ## Run from CLI
