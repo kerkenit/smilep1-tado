@@ -39,20 +39,22 @@ const getOptions = () => {
 
 const options = getOptions();
 
-async function getMeterReadings(options, home_id) {
-	try {
-		var today = new Date();
-		var dd = String(today.getDate()).padStart(2, '0');
-		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-		var yyyy = today.getFullYear();
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
 
-		today = yyyy + '-' + mm + '-' + dd;
+today = yyyy + '-' + mm + '-' + dd;
+
+async function getMeterReadings(options, home_id, today) {
+	try {
+
 
 		// fill in the id of the device, e.g. 'hcfrasde'
 		// fill in the ip address of the device, e.g. '192.168.1.50'
 		await smile.login({ id: options.id, host: options.host });
 		const powerInfo = await smile.getMeterReadings();
-		//console.log(powerInfo);
+		console.log(powerInfo);
 
 		tado.addEnergyIQMeterReading(home_id, today, parseInt(Math.round(powerInfo.gas), 10));
 
@@ -65,10 +67,15 @@ async function getMeterReadings(options, home_id) {
 tado.login(options.username, options.password).then(() => {
 	tado.getMe().then(resp => {
 		home_id = resp.homes[0].id;
-		//tado.deleteEnergyIQMeterReading(home_id, 'bd3479cc-066e-40fc-a489-62f8a20ed02b');
-		//tado.getEnergyIQMeterReadings(home_id).then(resp => {
-		//	console.log(resp);
-		//});
-		getMeterReadings(options, home_id);
+		tado.getEnergyIQMeterReadings(home_id).then(resp => {
+			resp.readings.forEach(reading => {
+				if (reading.date === today) {
+					console.log(reading);
+					tado.deleteEnergyIQMeterReading(home_id, reading.id);
+					return reading;
+				}
+			});
+		});
+		getMeterReadings(options, home_id, today);
 	});
 });
