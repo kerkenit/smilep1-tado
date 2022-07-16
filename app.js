@@ -48,8 +48,6 @@ today = yyyy + '-' + mm + '-' + dd;
 
 async function getMeterReadings(options, home_id, today) {
 	try {
-
-
 		// fill in the id of the device, e.g. 'hcfrasde'
 		// fill in the ip address of the device, e.g. '192.168.1.50'
 		await smile.login({ id: options.id, host: options.host });
